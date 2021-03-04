@@ -22,7 +22,7 @@
     <?php for ($i=1; $i <= 3; $i++) :?>
         <?php for ($y=1; $y <= 3; $y++) :?>
             <?php if($i >= $y):?>
-                <div class="lingkaran"><?= $i?><?= $y?></div>
+                <div class="lingkaran"><?= $y?></div>
                 <?php if($i == $y):?>
                     <br>
                 <?php endif;?>
