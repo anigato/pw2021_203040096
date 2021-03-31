@@ -128,8 +128,18 @@ function rupiah($harga)
                     <td><?= rupiah($value["price"]); ?></td>
                     <td>
                         <?php
+                        $cate = $value["category"];
                         $capa = $value["capacity"];
-                        echo $capa, $capa == 1 ? "TB" : "GB";
+                        if(preg_match("/SSD/i", $cate)) {
+                            echo $capa, strlen($capa) == 1 ? "TB" : "GB";
+                        }
+                        else {
+                            echo $capa, "GB";
+                        }
+                        
+                        
+                        
+                        
                         ?>
                     </td>
                     <td><?php
