@@ -27,6 +27,7 @@ $product = query("select*from products where id=$id")[0];
     <div class="container mt-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../index.php">HOME</a></li>
                 <li class="breadcrumb-item"><a href="#"><?= $product["category"] ?></a></li>
                 <li class="breadcrumb-item"><a href="#"><?= $product["brand"] ?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?= $product["name"] ?></li>
@@ -49,24 +50,14 @@ $product = query("select*from products where id=$id")[0];
                     echo "<span class='badge badge-danger'>Stok Hampir Habis</span>";
                 }
                 ?>
-                <h1 class="font-weight-bold text-uppercase"><?= $product["name"] ?></h1>
-                <?= (str_word_count($product["description"]) > 200 ? substr($product["description"], 0, 200) . "...." : $product["description"]); ?>
+                <h2 class="font-weight-bold text-uppercase"><?= $product["name"] ?></h2>
+                <p><?= (str_word_count($product["description"]) > 200 ? substr($product["description"], 0, 250) . "...." : $product["description"]); ?></p>
 
                 <table class="table mt-3">
-                    <tr>
-                        <td>SKU Produk</td>
-                        <td>:</td>
-                        <td><?= $product["sku"] ?></td>
-                    </tr>
                     <tr>
                         <td>Merk</td>
                         <td>:</td>
                         <td><?= $product["brand"] ?></td>
-                    </tr>
-                    <tr>
-                        <td>Kategori</td>
-                        <td>:</td>
-                        <td><?= $product["category"] ?></td>
                     </tr>
                     <tr>
                         <td>Kapasitas</td>
@@ -93,7 +84,7 @@ $product = query("select*from products where id=$id")[0];
                     </tr>
                 </table>
 
-                <h3><?= rupiah($product["price"]); ?></h3>
+                <h3 class="text-danger font-weight-bold"><?= rupiah($product["price"]); ?></h3>
 
             </div>
 
@@ -134,7 +125,49 @@ $product = query("select*from products where id=$id")[0];
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="desc-tabContent">
-                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab"><?= $product["description"] ?></div>
+                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h3>Spesifikasi</h3>
+                                    <table class="table mt-3">
+                                        <tr>
+                                            <td>SKU Produk</td>
+                                            <td>:</td>
+                                            <td><?= $product["sku"] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Merk</td>
+                                            <td>:</td>
+                                            <td><?= $product["brand"] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kategori</td>
+                                            <td>:</td>
+                                            <td><?= $product["category"] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kapasitas</td>
+                                            <td>:</td>
+                                            <td><?php
+                                                $cate = $product["category"];
+                                                $capa = $product["capacity"];
+                                                if (preg_match("/SSD/i", $cate)) {
+                                                    echo $capa, strlen($capa) == 1 ? " TB" : " GB";
+                                                } else {
+                                                    echo $capa, " GB";
+                                                }
+                                                ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Berat</td>
+                                            <td>:</td>
+                                            <td><?= $product["weight"] ?>gr</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <?= $product["description"] ?>
+                        </div>
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">tab ulasan</div>
                         <div class="tab-pane fade" id="disscusion" role="tabpanel" aria-labelledby="disscusion-tab">
                             <div id="disqus_thread"></div>
@@ -149,7 +182,6 @@ $product = query("select*from products where id=$id")[0];
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <!-- Go to www.addthis.com/dashboard to customize your tools -->
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e9e4256855b7795"></script>
     <script>
         /**
