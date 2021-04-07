@@ -40,7 +40,7 @@
             
     <?php foreach($storage as $stor) : ?>
         <li>
-            <a href="latihan2.php?name=<?= $stor['name'];?>"><?=$stor["name"]?></a>
+            <a href="latihan2.php?name=<?= $stor['name']?>&description=<?= $stor['description']?>&category=<?= $stor['category']?>&price=<?= $stor['price']?>&capacity=<?= $stor['capacity']?>&img=<?= $stor['img']?>"><?= $stor['name']?></a>
         </li>
     <?php endforeach?>
 </ul>

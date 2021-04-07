@@ -4,6 +4,8 @@
 if (!isset($_GET["name"]) || 
     !isset($_GET["description"] ) ||
     !isset($_GET["price"] ) ||
+    !isset($_GET["capacity"] ) ||
+    !isset($_GET["img"] ) ||
     !isset($_GET["category"] )
     ) {
     header("Location: latihan1.php");
@@ -23,12 +25,13 @@ if (!isset($_GET["name"]) ||
 <body>
     <ul>
         <li>
-            <img src="$_GET['name'];?>" alt="" width="100">
+            <img src="<?= $_GET["img"];?>" alt="" width="100">
         </li>
         <li><?= $_GET["name"];?></li>
         <li><?= $_GET["description"];?></li>
         <li><?= $_GET["price"];?></li>
         <li><?= $_GET["category"];?></li>
+        <li><?= $_GET["capacity"];?></li>
     </ul>
     <a href="latihan1.php">Kembali</a>
 </body>
