@@ -54,7 +54,7 @@ require 'function.php';
                         <select class="custom-select" name="category" required>
                             <option value="">Open list Product Category</option>
                             <option value="HDD">HDD</option>
-                            <option value="RAM">RAM</option>
+                            <option value="SSHD">SSHD</option>
                             <option value="SSD">SSD</option>
                             <option value="SSD NVME">SSD NVME</option>
                         </select>
@@ -91,7 +91,7 @@ require 'function.php';
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="weight">Weight</label>
-                        <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight in gram" required onkeypress="return onlyNumber(event)" minlength="3" maxlength="4">
+                        <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight in gSSHD" required onkeypress="return onlyNumber(event)" minlength="3" maxlength="4">
                         <div class="invalid-feedback">
                             Minimum Product Weight of 100gr and a maximum of 9.999gr
                         </div>
