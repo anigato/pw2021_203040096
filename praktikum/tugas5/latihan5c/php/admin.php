@@ -81,7 +81,7 @@ $produk = query("select*from products")
                                 } ?>
                             </td>
                             <td rowspan="2" class="row">
-                                <a href="ubah.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info col-md-6 update-link">Edit</a>
+                                <a href="" class="btn btn-sm btn-info col-md-6 update-link">Edit</a>
                                 <a href="hapus.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-danger col-md-6 delete-link">Delete</a>
 
                                 <!-- <button class="btn btn-sm btn-danger col-md-6" onclick="delete_product()">Delete</button> -->
@@ -133,45 +133,6 @@ $produk = query("select*from products")
             });
         });
 
-        jQuery(document).ready(function($) {
-            $('.update-link').on('click', function() {
-                var getLink = $(this).attr('href');
-
-                Swal.fire({
-                    title: 'Warning!',
-                    text: 'Are you sure you want to edit it?',
-                    type: 'question',
-                    // html:true,
-                    showCancelButton: true,
-                    cancelButtonColor: '#d33',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes'
-                }).then((result) => {
-                    if (result.value) {
-                        window.location.href = getLink;
-                    }
-                });
-                return false;
-            });
-        });
-
-
-        // function delete_product() {
-        //     Swal.fire({
-        //         title: 'Warning!',
-        //         text: 'Yakin ingin hapus? nanti data ini akan hilang',
-        //         type: 'warning',
-        //         showCancelButton: true,
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonColor: '#3085d6',
-        //         confirmButtonText: 'Yes, Delete It!'
-
-        //     }).then((result) => {
-        //         if (result.value) {
-        //             html: 'hapus.php?id=<?= $row['id'] ?>';
-        //         }
-        //     })
-        // }
     </script>
 </body>
 
