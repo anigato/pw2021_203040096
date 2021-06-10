@@ -1,7 +1,12 @@
 <?php
 // koneksi ke database
 $conn = mysqli_connect("Localhost", "root", "", "pw_kuliah");
-
+function koneksi()
+{
+    $conn = mysqli_connect("localhost", "root", "");
+    mysqli_select_db($conn, "pw_kuliah");
+    return $conn;
+}
 
 function query($query)
 {
@@ -14,6 +19,21 @@ function query($query)
     return $rows;
 }
 
+// fungsi merubah format harga
+function rupiah($harga)
+{
+    $hasil_harga = "Rp. " . number_format($harga, 2, ',', '.');
+    return $hasil_harga;
+}
+
+function shortDesc($desc,$longChar){
+    if (strlen($desc) >= $longChar) {
+        $data = substr($desc, 0, $longChar) . ".....";
+    } else {
+        $data = $desc;
+    }
+    return $data;
+}
 
 function tambah($data)
 {
@@ -41,7 +61,11 @@ function tambah($data)
 function hapus($id)
 {
     global $conn;
-    mysqli_query($conn, "DELETE FROM products WHERE id = $id");
+    $product = query("SELECT*FROM products WHERE id = $id")[0];
+    if($product['img'] != "nophoto.png"){
+        unlink("img/".$product['img']);
+    }
+    mysqli_query($conn, "DELETE FROM products WHERE id = $id") or die(mysqli_error($conn));
     return mysqli_affected_rows($conn);
 }
 
@@ -55,13 +79,18 @@ function ubah($data)
     $capacity = htmlspecialchars($data["capacity"]);
     $description = htmlspecialchars($data["description"]);
     $price = htmlspecialchars($data["price"]);
-    $img = htmlspecialchars($data["img"]);
+    // $img = htmlspecialchars($data["img"]);
+    $old_img = htmlspecialchars($data["olg_img"]);
 
-    if( $_FILES['img'] ['error'] === 4 ) {
-		$img = $imgLama;
-	} else {
-		$img = upload();
-	}
+    $img = upload();
+    if(!$img) {
+		return false;
+    }
+
+    if ($img == "nophoto.png") {
+        $img = $old_img;
+    }
+    
 
     $query = "UPDATE products SET
  				name = '$name',
@@ -87,10 +116,10 @@ function upload()
 
     //  cek apakah tidak ada img yang di upload
     if ($error === 4) {
-        echo "<script>
-				alert('pilih img terlebih dahulu!');
-		</script>";
-        return false;
+        // echo "<script>
+		// 		alert('pilih img terlebih dahulu!');
+		// </script>";
+        return 'nophoto.png';
     }
     // cek apakah yang diupload adalah img
     $ekstensiimgValid = ['jpg', 'jpeg', 'png'];
@@ -132,4 +161,29 @@ function cari($keyword)
 				capacity LIKE '%$keyword%'
 				";
     return query($query);
+}
+
+
+function register($data){
+	global $conn;
+
+	$username = strtolower(stripcslashes($data["username"]));
+	$password = mysqli_real_escape_string($conn, $data["password"]);
+	$password2 =mysqli_real_escape_string($conn, $data["confirm_password"]);
+	$email = stripcslashes($data["email"]);
+
+
+
+
+	// cek konfirmasi password
+	if ($password !== $password2) {
+		return "passsword_not_same";
+	}
+
+	// enkripsi / mengamankan password
+	$password = password_hash($password, PASSWORD_DEFAULT);
+
+	// Tambahkan user baru ke db
+	mysqli_query($conn, "INSERT INTO user VALUES('', '$username','$password','$email')");
+	return "ok";
 }

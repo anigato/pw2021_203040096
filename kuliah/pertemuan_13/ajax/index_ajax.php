@@ -1,58 +1,32 @@
 <?php
 // koneksi ke database
-require "functions.php";
-$product = query("SELECT * FROM products");
+require "../functions.php";
+$keyword = $_GET["keyword"];
 
-// tombol cari ditekan
-if (isset($_POST["cari"])) {
-	$product = cari($_POST["keyword"]);
-}
+$query =  " SELECT * FROM products 
+	WHERE 
+	name LIKE '%$keyword%' OR
+	category LIKE '%$keyword%' OR
+	capacity LIKE '%$keyword%'
+	";
+$product = query($query);
+
 ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-	<title>Halaman Admin</title>
-</head>
-
-<body>
-	<h1>Daftar Produk</h1>
-	<a href="tambah.php">Tambah data Produk</a>
-	<br><br>
-	<form action="" method="post">
-		<input type="text" name="keyword" size="40" autofocus placeholder="masukan keyword pencarian.." autocomplete="off">
-		<button type="submit" name="cari">Cari!</button>
-	</form>
-	<table border="1" cellpadding="10" cellspacing="0">
-		<tr>
-			<th>No.</th>
-			<th>Gambar</th>
-			<th>Nama</th>
-			<th>Deskripsi</th>
-			<th>Harga</th>
-			<th>Kategori</th>
-			<th>Kapasitas</th>
-			<th>Aksi</th>
-		</tr>
-
-		<?php $i = 1; ?>
-		<?php foreach($product as $row) : ?>
-			<tr>
-				<td><?= $i; ?></td>
-				<td><img src="img/<?= $row["img"]; ?>" width="50"></td>
-				<td><?= $row["name"]; ?></td>
-				<td><?= $row["description"]; ?></td>
-				<td><?= $row["price"]; ?></td>
-				<td><?= $row["category"]; ?></td>
-				<td><?= $row["capacity"]; ?></td>
-				<td>
-					<a href="ubah.php?id=<?= $row["id"]; ?>">ubah</a> |
-					<a href="hapus.php?id=<?= $row["id"]; ?>" onclick="return confirm('yakin?');">hapus</a>
-				</td>
-			</tr>
-			<?php $i++; ?>
-		<?php endforeach; ?>
-	</table>
-</body>
-
-</html>
+<div class="row">
+	<?php foreach ($product as $row) : ?>
+		<div class="col-lg-3 col-sm-6">
+			<div class="card card-no-top my-3">
+				<a class="text-decoration-none products" on href="detail.php?id=<?= $row['id'] ?>">
+					<div class="card-body">
+						<div class="gambar-index text-center">
+							<img src="img/<?= $row["img"] ?>" alt="" class="img-tumbnail rounded">
+						</div>
+						<h6 class="text-center font-weight-bold text-info mt-2 text-uppercase"><?= $row["name"] ?></h6>
+						<h6 class="text-center text-danger font-weight-bolder"><?= rupiah($row["price"]); ?></h6>
+					</div>
+				</a>
+				<input id="btn-cart" type="button" class="btn-info form-control btn-cart" value="Tambahkan Ke Keranjang"></input>
+			</div>
+		</div>
+	<?php endforeach; ?>
+</div>
